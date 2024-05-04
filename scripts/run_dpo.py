@@ -20,8 +20,9 @@ import sys
 import torch
 import transformers
 from transformers import AutoModelForCausalLM, set_seed
-
-from alignment import (
+import os
+sys.path.insert(0, os.path.abspath('.'))
+from src.alignment import (
     DataArguments,
     DPOConfig,
     H4ArgumentParser,
@@ -46,7 +47,6 @@ logger = logging.getLogger(__name__)
 def main():
     parser = H4ArgumentParser((ModelArguments, DataArguments, DPOConfig))
     model_args, data_args, training_args = parser.parse()
-
     #######
     # Setup
     #######
@@ -108,7 +108,7 @@ def main():
         remove_columns=column_names,
         desc="Formatting comparisons with prompt template",
     )
-
+    logger.info(f'{raw_datasets.column_names = }')
     ##########################
     # Decontaminate benchmarks
     ##########################
@@ -125,7 +125,6 @@ def main():
     logger.info(
         f"Decontaminated {num_filtered_train_samples} ({num_filtered_train_samples/num_raw_train_samples * 100:.2f}%) samples from the training set."
     )
-
     # Replace column names with what TRL needs, text_chosen -> chosen and text_rejected -> rejected
     for split in ["train", "test"]:
         raw_datasets[split] = raw_datasets[split].rename_columns(
@@ -179,7 +178,7 @@ def main():
 
     ref_model = model
     ref_model_kwargs = model_kwargs
-
+    logger.info(f'{model_args.use_peft = }')
     if model_args.use_peft is True:
         ref_model = None
         ref_model_kwargs = None
@@ -202,7 +201,8 @@ def main():
         peft_config=get_peft_config(model_args),
         loss_type=training_args.loss_type,
     )
-
+    logger.info(f'{trainer.args = }')
+    # sys.exit()
     ###############
     # Training loop
     ###############

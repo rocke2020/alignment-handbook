@@ -58,6 +58,10 @@ FILTER_OUT = {
         if s not in HUMAN_EVAL_STRINGS_OK
     ],
 }
+openai_humaneval_num = 0
+for k, v in FILTER_OUT.items():
+    openai_humaneval_num += len(v)
+print(f"{openai_humaneval_num = } samples in openai_humaneval as filter out dataset")
 
 
 def normalize_whitespace(text: str) -> str:

@@ -182,7 +182,6 @@ def main():
     if model_args.use_peft is True:
         ref_model = None
         ref_model_kwargs = None
-
     #########################
     # Instantiate DPO trainer
     #########################
@@ -202,7 +201,7 @@ def main():
         loss_type=training_args.loss_type,
     )
     logger.info(f'{trainer.args = }')
-    # sys.exit()
+    sys.exit()
     ###############
     # Training loop
     ###############

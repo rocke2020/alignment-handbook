@@ -2,7 +2,7 @@ export HF_ENDPOINT=https://hf-mirror.com
 export HF_HOME=/mnt/nas2/huggingface
 gpu=$1
 if [ -z $gpu ]; then
-    gpu=2
+    gpu=0
 fi
 export CUDA_VISIBLE_DEVICES=$gpu
 # --main_process_port=29555 \

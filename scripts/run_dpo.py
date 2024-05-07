@@ -201,7 +201,7 @@ def main():
         loss_type=training_args.loss_type,
     )
     logger.info(f'{trainer.args = }')
-    sys.exit()
+    # sys.exit()
     ###############
     # Training loop
     ###############
